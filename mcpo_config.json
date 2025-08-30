@@ -1,0 +1,22 @@
+{
+  "globalShortcut": "",
+  "mcpServers": {
+    "mux": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@mux/mcp@latest",
+        "--tools=dynamic",
+        "--client=openai-agents"
+      ],
+      "env": {
+        "MUX_TOKEN_ID": "${MUX_TOKEN_ID}",
+        "MUX_TOKEN_SECRET": "${MUX_TOKEN_SECRET}"
+      }
+    },
+    "time": {
+      "command": "uvx",
+      "args": ["mcp-server-time", "--local-timezone=America/Los_Angeles"]
+    }
+  }
+}
