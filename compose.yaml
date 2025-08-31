@@ -6,10 +6,18 @@ services:
     volumes:
       - ./:/work
     command: >
-      sh -c 'test -f speech.env || {
-        echo "# Auto-created by compose init" > speech.env;
-        echo "# Add values like: KEY=value" > speech.env;
-      }'
+      sh -c 'if [ ! -f speech.env ]; then
+        if [ -f sample.env ]; then
+          cp sample.env speech.env;
+          echo "Copied sample.env to speech.env";
+        else
+          echo "# Auto-created by compose init" > speech.env;
+          echo "# Add values like: MUX_TOKEN_ID=value" >> speech.env;
+          echo "Created placeholder speech.env";
+        fi
+      else
+        echo "speech.env already exists; leaving it unchanged";
+      fi'
     restart: "no"
 
   #create ollama with GPU Support
