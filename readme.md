@@ -21,6 +21,8 @@ A simple, local stack to run a voice-enabled AI assistant for Mux MCP using:
 2) Start the stack:
    ```bash
    docker compose up --detach
+   Install Model using openweb-ui model admin (gpt-oss:20b)
+   Setup Mux MCPO at http://mcpo:8001/mux and verify connection
    ```
    - First startup may take time as models/images are pulled and initialized.
 
