@@ -6,10 +6,18 @@ services:
     volumes:
       - ./:/work
     command: >
-      sh -c 'test -f speech.env || {
-        echo "# Auto-created by compose init" > speech.env;
-        echo "# Add values like: KEY=value" > speech.env;
-      }'
+      sh -c 'if [ ! -f speech.env ]; then
+        if [ -f sample.env ]; then
+          cp sample.env speech.env;
+          echo "Copied sample.env to speech.env";
+        else
+          echo "# Auto-created by compose init" > speech.env;
+          echo "# Add values like: MUX_TOKEN_ID=value" >> speech.env;
+          echo "Created placeholder speech.env";
+        fi
+      else
+        echo "speech.env already exists; leaving it unchanged";
+      fi'
     restart: "no"
 
   #create ollama with GPU Support
@@ -62,9 +70,7 @@ services:
       - open-webui-data:/app/backend/data
     restart: unless-stopped
 
-
-
-
+#SETUP MCPO
   mcpo:
     image: ghcr.io/open-webui/mcpo:latest
     container_name: mcpo
@@ -81,6 +87,7 @@ services:
       - init-env
     restart: unless-stopped
 
+  #SETUP SPEACHES WITH GPU SUPPORT
   speaches:
     image: ghcr.io/speaches-ai/speaches:latest-cuda
     restart: unless-stopped
