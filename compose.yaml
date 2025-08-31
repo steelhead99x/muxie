@@ -98,11 +98,50 @@ services:
         reservations:
           devices:
             - driver: nvidia
-              count: all # Or specify a number of GPUs, e.g., 1, or specific device IDs
+              count: all
               capabilities: [ gpu ]
-    build:
-      args:
-        BASE_IMAGE: ubuntu:24.04
+    env_file:
+      - ./speech.env
+    environment:
+      - TTS_HOME=/voices
+      - HF_HOME=/voices
+      # Removed PATH override; let the image manage its own PATH
+    volumes:
+      - voices:/voices
+    depends_on:
+      - init-env
+    # Removed custom command; use image's default entrypoint/CMD
+
+  # One-off init job to pre-download models after speaches is up
+  speaches-init:
+    image: alpine:3.20
+    depends_on:
+      - speaches
+    environment:
+      - TTS_HOME=/voices
+      - HF_HOME=/voices
+      - PATH=/root/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    volumes:
+      - voices:/voices
+    command: >
+      sh -lc '
+        set -e
+        apk add --no-cache curl ca-certificates >/dev/null
+        # Wait for speaches API to be reachable
+        for i in $(seq 1 90); do
+          curl -sfS --connect-timeout 1 http://speaches:8000/ >/dev/null && break || sleep 1
+        done
+        # Install uv and use uvx to run speaches-cli without polluting the base images
+        curl -LsSf https://astral.sh/uv/install.sh | sh
+        export PATH="/root/.local/bin:${PATH}"
+        uvx --version
+        uvx speaches-cli model download Systran/faster-distil-whisper-small.en || true
+        uvx speaches-cli model download speaches-ai/Kokoro-82M-v1.0-ONNX || true
+        echo "speaches-init: model downloads complete"
+      '
+    restart: "no"
+
+
 
 volumes:
   ollama-data:
