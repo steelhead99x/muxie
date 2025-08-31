@@ -9,6 +9,7 @@ A simple, local stack to run a voice-enabled AI assistant for Mux MCP using:
 ## Prerequisites
 - Docker and Docker Compose
 - Recommended: NVIDIA GPU (e.g., RTX 3090 with 16 GB VRAM). CPU will work but will not work with current configuration (see cpu branch).
+- Recommended 40GB of free space on storage drive
 
 ## Quick Start
 1) Configure environment:
@@ -23,6 +24,7 @@ A simple, local stack to run a voice-enabled AI assistant for Mux MCP using:
    docker compose up --detach
    Install Model using openweb-ui model admin (gpt-oss:20b)
    Setup Mux MCPO at http://mcpo:8001/mux and verify connection
+   Goto Connections -> Disable openai api and enable third party option
    ```
    - First startup may take time as models/images are pulled and initialized.
 
