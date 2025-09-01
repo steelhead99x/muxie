@@ -8,14 +8,18 @@ ENV TTS_HOME=/opt/voices \
     HF_HOME=/opt/voices \
     PATH="/root/.local/bin:${PATH}"
 
-# Prepare model directory, install uv, then pre-download models
+# Install required system utilities and prepare model directory
 RUN set -eux; \
+    apt-get update && apt-get install -y \
+        curl \
+        coreutils \
+        python3 \
+        python3-pip \
+        && rm -rf /var/lib/apt/lists/*; \
     mkdir -p /opt/voices && chmod -R 777 /opt/voices; \
     curl -LsSf https://astral.sh/uv/install.sh | sh; \
-    uvx --version; \
+    export PATH="/root/.local/bin:${PATH}"; \
+    uvx --version
 
-
-
-# The base image already starts the service; no need to override CMD.
-# If you want an explicit start command:
-# CMD ["speaches", "serve", "--host", "0.0.0.0", "--port", "8000"]
+# Simple entrypoint - just run speaches
+ENTRYPOINT ["speaches", "serve", "--host", "0.0.0.0", "--port", "8000"]
