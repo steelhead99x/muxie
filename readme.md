@@ -21,12 +21,15 @@ A simple, local stack to run a voice-enabled AI assistant for Mux MCP using:
 
 2) Start the stack:
    ```bash
+   #sample.env update variables as needed
+   cp sample.env speech.env 
    docker compose up --detach
    docker exec -it muxie-speaches-1 uvx speaches-cli model download speaches-ai/Kokoro-82M-v1.0-ONNX  
-   docker exec -it muxie-speaches-1 uvx speaches-cli model  Systran/faster-distil-whisper-small.en 
-   Install Model using openweb-ui model admin (gpt-oss:20b)
-   Setup Mux MCPO at http://mcpo:8001/mux and verify connection
-   Goto Connections -> Disable openai api and enable third party option
+   docker exec -it muxie-speaches-1 uvx speaches-cli model download Systran/faster-distil-whisper-small.en
+   #docker exec -it muxie-speaches-1 uvx speaches-cli model download Systran/faster-distil-whisper-small.en 
+   #Install Model using openweb-ui model admin (gpt-oss:20b)
+   #Setup Mux MCPO at http://mcpo:8001/mux and verify connection
+   #Goto Connections -> Disable openai api and enable third party option
    ```
    - First startup may take time as models/images are pulled and initialized.
 
