@@ -83,7 +83,7 @@ services:
       - "8001:8001"
     volumes:
       - ./mcpo_config.json:/app/mcpo/config.json
-    command: mcpo --port 8001 --config /app/mcpo/config.json --api-key=horses99x>
+    command: mcpo --port 8001 --config /app/mcpo/config.json --api-key=${MCPO_API_KEY}
     env_file:
       - ./speech.env
     environment:
