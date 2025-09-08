@@ -8,6 +8,7 @@ A simple, local stack to run a voice-enabled AI assistant for Mux MCP using:
 
 ## Prerequisites
 - Docker and Docker Compose
+- NVIDIA Container Toolkit if using GPU
 - Recommended: NVIDIA GPU (e.g., RTX 3090 with 16 GB VRAM). CPU will work but will not work with current configuration (see cpu branch).
 - Recommended 40GB of free space on storage drive
 
