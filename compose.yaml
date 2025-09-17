@@ -137,6 +137,7 @@ services:
         uvx --version
         uvx speaches-cli model download Systran/faster-distil-whisper-small.en || true
         uvx speaches-cli model download speaches-ai/Kokoro-82M-v1.0-ONNX || true
+        uvx speaches-cli model download  Systran/faster-distil-whisper-large-v33 || true
         echo "speaches-init: model downloads complete"
       '
     restart: "no"
