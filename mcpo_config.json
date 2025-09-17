@@ -6,12 +6,11 @@
       "args": [
         "-y",
         "@mux/mcp@latest",
-        "--tools=dynamic",
-        "--client=openai-agents"
+        "--tools=dynamic"
       ],
       "env": {
-        "MUX_TOKEN_ID": "${MUX_TOKEN_ID}",
-        "MUX_TOKEN_SECRET": "${MUX_TOKEN_SECRET}"
+        "MUX_TOKEN_ID": "<MUX_TOKEN_ID>",
+        "MUX_TOKEN_SECRET": "<MUX_TOKEN_SECRET>"
       }
     },
     "time": {

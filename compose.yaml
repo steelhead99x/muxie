@@ -28,6 +28,11 @@ services:
       - ollama-data:/root/.ollama
     ports:
       - "11434:11434"
+    env_file:
+      - ./speech.env
+    environment:
+      - OLLAMA_NUM_PARALLEL=${OLLAMA_NUM_PARALLEL:-3}
+      - OLLAMA_SCHED_SPREAD=${OLLAMA_SCHED_SPREAD:-1}
     deploy:
       resources:
         reservations:
@@ -78,7 +83,7 @@ services:
       - "8001:8001"
     volumes:
       - ./mcpo_config.json:/app/mcpo/config.json
-    command: mcpo --port 8001 --config /app/mcpo/config.json --api-key=horses99x>
+    command: mcpo --port 8001 --config /app/mcpo/config.json --api-key=${MCPO_API_KEY}
     env_file:
       - ./speech.env
     environment:
